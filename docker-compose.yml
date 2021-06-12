@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-k8s
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 8000
+  selector:
+    app: hello-k8s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-k8s
+  spec:
+    replicas: 2
+    strategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 2
+        maxSurge: 2
+    selector:
+      matchLabels:
+        app: hello-k8s
+    template:
+      metadata:
+        labels:
+          app: hello-k8s
+      spec:
+        containers:
+          - name: hello-k8s
+            image: CONTAINER_IMAGE
+            securityContext:
+              privileged: false
+              readOnlyRootFilesystem: true
+              allowPrivilegeEscalation: false
+              command: [python manage.py runserver 0.0.0.0:8000]
+            ports:
+              - containerPort: 8000
+  
+
+
+
+
+
+
+
+
+
+
+
+#==========
+services: 
+    web:
+        build: .
+        command: 
+        volumes: 
+            - .:/app
+        ports: 
+            - "8000:8000"
+#==========
