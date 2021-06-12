@@ -1,11 +1,12 @@
- version: '3'
- services:
+version: "3"
+services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    build: .
     ports:
-      - "3000:3000"
+      - "5000:5000"
     volumes:
-      - /app/node_modules
-      - .:/app
+      - .:/code
+    environment:
+      FLASK_ENV: development
+  redis:
+    image: "redis:alpine"
