@@ -39,25 +39,3 @@ metadata:
               command: [python manage.py runserver 0.0.0.0:8000]
             ports:
               - containerPort: 8000
-  
-
-
-
-
-
-
-
-
-
-
-
-#==========
-services: 
-    web:
-        build: .
-        command: 
-        volumes: 
-            - .:/app
-        ports: 
-            - "8000:8000"
-#==========
