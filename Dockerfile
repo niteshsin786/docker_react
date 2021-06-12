@@ -1,11 +1,16 @@
-# syntax=docker/dockerfile:1
-FROM python:3.7-alpine
-WORKDIR /code
-ENV FLASK_APP=app.py
-ENV FLASK_RUN_HOST=0.0.0.0
-RUN apk add --no-cache gcc musl-dev linux-headers
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-EXPOSE 5000
+# This is a multi-stage build. First we are going to compile and then
+# create a small image for runtime.
+ARG ACCOUNT_ID
+FROM ${ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/docker-python-base:latest
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+
+RUN pip3 install --no-cache-dir -r requirements.txt
+
 COPY . .
-CMD ["flask", "run"]
+
+EXPOSE 8080
+
+CMD [ "python", "-u", "./test.py" ]
