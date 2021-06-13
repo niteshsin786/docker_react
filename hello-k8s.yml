@@ -36,6 +36,5 @@ metadata:
               privileged: false
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
-            command: [python manage.py runserver 0.0.0.0:8000]
             ports:
               - containerPort: 8000
