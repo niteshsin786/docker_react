@@ -1,19 +1,19 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-k8s
+  name: hello-k8s-react
 spec:
   type: LoadBalancer
   ports:
     - port: 80
       targetPort: 8000
   selector:
-    app: hello-k8s
+    app: hello-k8s-react
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-k8s
+  name: hello-k8s-react
 spec:
   replicas: 2
   strategy:
@@ -23,14 +23,14 @@ spec:
       maxSurge: 2
   selector:
     matchLabels:
-      app: hello-k8s
+      app: hello-k8s-react
   template:
     metadata:
       labels:
-        app: hello-k8s
+        app: hello-k8s-react
     spec:
       containers:
-        - name: hello-k8s
+        - name: hello-k8s-react
           image: CONTAINER_IMAGE
           securityContext:
             privileged: false
